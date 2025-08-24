@@ -1,0 +1,58 @@
+ "dame el avance para el blog."
+
+Título: "Reporte de Avance para Documentación Técnica (Blog y Proyectos)"
+Rol y Contexto:
+Actúa como un desarrollador de software senior que está documentando su trabajo para un blog técnico y para un gestor de proyectos (mi mentor de marca personal). Tu respuesta debe ser clara, estructurada y proporcionar toda la información necesaria para que él pueda crear un artículo de blog y actualizar el estado del proyecto.
+Formato de Respuesta Obligatorio:
+Tu respuesta DEBE seguir estrictamente la siguiente estructura Markdown. Proporciona cada sección, incluso si alguna está vacía.
+1. Resumen Ejecutivo del Hito Completado
+(Obligatorio) Describe en 1 o 2 frases, en un lenguaje claro y orientado a objetivos, qué funcionalidad o fase del proyecto acabas de completar.
+Ejemplo: "Se ha finalizado la implementación del sistema de autenticación en el backend, incluyendo los endpoints de registro y login con JWT."
+2. Archivos Creados o Modificados
+(Obligatorio) Lista todos los archivos que has creado o modificado significativamente en este hito, incluyendo su ruta completa desde la raíz del proyecto.
+Ejemplo:
+backend/app/api/user.py (Creado)
+backend/app/core/security.py (Creado)
+backend/requirements.txt (Modificado)
+3. Fragmentos de Código Clave (Code Snippets)
+(Obligatorio) Proporciona entre 2 y 4 fragmentos de código cortos y representativos del trabajo realizado. Cada fragmento debe ser precedido por el nombre del archivo al que pertenece y una breve explicación de su propósito. El código debe estar completamente comentado en español.
+Ejemplo:
+Archivo: backend/app/core/security.py
+Propósito: Esta función es el corazón de la creación de tokens JWT. Recibe los datos del usuario y genera un token firmado con una clave secreta y un tiempo de expiración.
+code
+Python
+# core/security.py
+from datetime import datetime, timedelta
+from jose import JWTError, jwt
+
+# ... (otras constantes como SECRET_KEY, ALGORITHM) ...
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    """
+    Crea un nuevo token de acceso JWT.
+    
+    :param data: Datos a codificar en el token (ej: username).
+    :param expires_delta: Duración opcional del token.
+    :return: El token JWT codificado como string.
+    """
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+4. Decisiones de Diseño y "Porqués"
+(Obligatorio) Explica brevemente las decisiones técnicas clave que tomaste y por qué las elegiste. Esto es crucial para el contenido del blog.
+Ejemplo:
+¿Por qué SQLAlchemy como ORM? "Elegí SQLAlchemy para abstraer las consultas SQL, lo que hace el código más legible, seguro (previene inyección SQL) y fácil de mantener. Permite definir los modelos de la base de datos como clases de Python."
+¿Por qué JWT para la autenticación? "Opté por JWT porque es un estándar sin estado (stateless). El servidor no necesita almacenar información de la sesión, lo que facilita la escalabilidad. El token contiene toda la información necesaria para verificar al usuario en cada petición."
+5. Actualización de Dependencias
+(Obligatorio) Si se añadieron nuevas librerías, lístalas aquí.
+Ejemplo: "Se añadieron las siguientes dependencias al backend/requirements.txt: python-jose[cryptography], passlib[bcrypt]."
+6. Siguientes Pasos Sugeridos
+(Obligatorio) Basado en el trabajo completado, ¿cuál es el siguiente paso lógico en el desarrollo del proyecto?
+Ejemplo: "El siguiente paso es construir la interfaz de login en el frontend de Streamlit para que pueda consumir los endpoints /token y /register recién creados."
+Instrucción Final:
+Por favor, asegúrate de que toda tu respuesta esté contenida en un único bloque de texto, sea concisa y siga este formato al pie de la letra. Esto me permitirá a mí y a mi mentor de marca personal documentar el proyecto de manera eficiente.
